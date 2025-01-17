@@ -1,4 +1,4 @@
-package com.github.color.listeners;
+package ict.minesunshineone.color.listeners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,6 +17,7 @@ public class AnvilListener implements Listener {
             .character('&')
             .hexColors()
             .useUnusualXRepeatedCharacterHexFormat()
+            .hexCharacter('#')
             .build();
 
     @EventHandler

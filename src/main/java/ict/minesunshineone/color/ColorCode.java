@@ -1,10 +1,10 @@
-package com.github.color;
+package ict.minesunshineone.color;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.color.listeners.AnvilListener;
-import com.github.color.listeners.PlayerChatListener;
-import com.github.color.listeners.SignListener;
+import ict.minesunshineone.color.listeners.AnvilListener;
+import ict.minesunshineone.color.listeners.PlayerChatListener;
+import ict.minesunshineone.color.listeners.SignListener;
 
 public class ColorCode extends JavaPlugin {
 

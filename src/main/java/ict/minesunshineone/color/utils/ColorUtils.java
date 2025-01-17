@@ -1,4 +1,4 @@
-package com.github.color.utils;
+package ict.minesunshineone.color.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,16 +15,18 @@ public class ColorUtils {
     private static final LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder()
             .character('&')
             .hexColors()
+            .useUnusualXRepeatedCharacterHexFormat()
+            .hexCharacter('#')
             .build();
     private static final PlainTextComponentSerializer plainSerializer = PlainTextComponentSerializer.plainText();
-    private static final Pattern hexPattern = Pattern.compile("&#([0-9a-fA-F]{6})");
+    private static final Pattern HEX_PATTERN = Pattern.compile("&#([0-9a-fA-F]{6})");
 
     public static String convertHexToMiniMessage(String text) {
         if (text == null || text.isEmpty()) {
             return text;
         }
 
-        Matcher matcher = hexPattern.matcher(text);
+        Matcher matcher = HEX_PATTERN.matcher(text);
         StringBuffer result = new StringBuffer();
 
         while (matcher.find()) {

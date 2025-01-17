@@ -1,4 +1,4 @@
-package com.github.color.listeners;
+package ict.minesunshineone.color.listeners;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
