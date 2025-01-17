@@ -15,11 +15,11 @@ public class ColorCode extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new AnvilListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
         getServer().getPluginManager().registerEvents(new PingListener(this), this);
-        getLogger().info("ColorCode plugin has been enabled!");
+        getLogger().info("ColorCode插件已启用");
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("ColorCode plugin has been disabled!");
+        getLogger().info("ColorCode插件已禁用");
     }
 }

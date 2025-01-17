@@ -26,11 +26,14 @@ public class PingListener implements Listener {
     private final Plugin plugin;
     private final Map<UUID, Long> cooldowns = new ConcurrentHashMap<>();
     private static final long COOLDOWN_TIME = 5000; // 5秒冷却时间
-    private static final long CLEANUP_DELAY = 72000L; // 1小时清理一次
+    private static final long CLEANUP_DELAY = 12000L; // 10分钟清理一次
     private static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer.builder()
             .character('&')
             .hexColors()
             .build();
+    private static final Pattern PLAYER_NAME_PATTERN = Pattern.compile("\\b%s\\b", Pattern.CASE_INSENSITIVE);
+    private static final Component PLAYER_MENTION_PREFIX = Component.text("玩家 ");
+    private static final Component PLAYER_MENTION_SUFFIX = Component.text(" 在聊天中提到了你！");
 
     public PingListener(Plugin plugin) {
         this.plugin = plugin;
@@ -69,8 +72,8 @@ public class PingListener implements Listener {
 
         for (Player target : plugin.getServer().getOnlinePlayers()) {
             String playerName = target.getName();
-            Pattern pattern = Pattern.compile("\\b" + Pattern.quote(playerName) + "\\b", Pattern.CASE_INSENSITIVE);
-            if (pattern.matcher(plainMessage).find()) {
+            String patternStr = String.format(PLAYER_NAME_PATTERN.pattern(), Pattern.quote(playerName));
+            if (Pattern.compile(patternStr).matcher(plainMessage).find()) {
                 pinged = true;
                 Component pingComponent = Component.text("@" + playerName)
                         .color(TextColor.color(0, 255, 0))
@@ -82,10 +85,10 @@ public class PingListener implements Listener {
                         .build());
 
                 if (!sender.equals(target)) {
-                    target.playSound(target.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
-                    Component actionBar = Component.text("玩家 ")
+                    target.playSound(target.getLocation(), Sound.BLOCK_ANVIL_LAND, 2.5f, 1.0f);
+                    Component actionBar = PLAYER_MENTION_PREFIX
                             .append(Component.text(sender.getName()).color(NamedTextColor.YELLOW))
-                            .append(Component.text(" 在聊天中提到了你！"));
+                            .append(PLAYER_MENTION_SUFFIX);
                     target.sendActionBar(actionBar);
                 }
             }
