@@ -41,7 +41,11 @@ public class PlayerChatListener implements Listener {
         ItemStack handItem = player.getInventory().getItemInMainHand();
 
         if (handItem.getType() != Material.AIR) {
-            return handItem.displayName()
+            Component itemName = handItem.hasItemMeta() && handItem.getItemMeta().hasDisplayName()
+                    ? handItem.getItemMeta().displayName()
+                    : Component.translatable(handItem.getType().translationKey());
+
+            return itemName
                     .decorate(TextDecoration.BOLD)
                     .hoverEvent(handItem.asHoverEvent());
         } else {
