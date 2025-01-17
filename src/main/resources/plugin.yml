@@ -1,5 +1,5 @@
 name: ColorCode
-version: '1.0'
+version: '1.1'
 main: ict.minesunshineone.color.ColorCode
 api-version: '1.21'
 description: 一个允许玩家在告示牌和铁砧上使用颜色代码的插件

@@ -45,14 +45,18 @@ public class PlayerChatListener implements Listener {
                     ? handItem.getItemMeta().displayName()
                     : Component.translatable(handItem.getType().translationKey());
 
-            return itemName
-                    .decorate(TextDecoration.BOLD)
-                    .hoverEvent(handItem.asHoverEvent());
+            return Component.text("『")
+                    .append(itemName
+                            .decorate(TextDecoration.BOLD)
+                            .hoverEvent(handItem.asHoverEvent()))
+                    .append(Component.text("』"));
         } else {
-            return Component.text(player.getName() + "的手")
-                    .decorate(TextDecoration.BOLD)
-                    .decorate(TextDecoration.UNDERLINED)
-                    .hoverEvent(Component.text("手上什么也没有"));
+            return Component.text("『")
+                    .append(Component.text(player.getName() + "的手")
+                            .decorate(TextDecoration.BOLD)
+                            .decorate(TextDecoration.UNDERLINED)
+                            .hoverEvent(Component.text("手上什么也没有")))
+                    .append(Component.text("』"));
         }
     }
 }
