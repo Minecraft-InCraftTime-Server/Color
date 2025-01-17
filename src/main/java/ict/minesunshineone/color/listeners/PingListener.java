@@ -3,11 +3,12 @@ package ict.minesunshineone.color.listeners;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Pattern;
 
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
@@ -18,13 +19,18 @@ import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class PingListener implements Listener {
 
     private final Plugin plugin;
     private final Map<UUID, Long> cooldowns = new ConcurrentHashMap<>();
-    private static final long COOLDOWN_TIME = 3000; // 3秒冷却时间
+    private static final long COOLDOWN_TIME = 5000; // 5秒冷却时间
     private static final long CLEANUP_DELAY = 72000L; // 1小时清理一次
+    private static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer.builder()
+            .character('&')
+            .hexColors()
+            .build();
 
     public PingListener(Plugin plugin) {
         this.plugin = plugin;
@@ -45,38 +51,49 @@ public class PingListener implements Listener {
         }, 20L, CLEANUP_DELAY);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onAsyncChat(AsyncChatEvent event) {
         Player sender = event.getPlayer();
-        String message = event.message().toString();
-        AtomicReference<Component> originalMessage = new AtomicReference<>(event.message());
+        Component originalMessage = event.message();
+        String plainMessage = SERIALIZER.serialize(originalMessage);
 
-        plugin.getServer().getGlobalRegionScheduler().execute(plugin, () -> {
-            for (Player target : plugin.getServer().getOnlinePlayers()) {
-                String playerName = target.getName();
+        // 检查冷却时间
+        long currentTime = System.currentTimeMillis();
+        Long lastPingTime = cooldowns.get(sender.getUniqueId());
+        if (lastPingTime != null && currentTime - lastPingTime < COOLDOWN_TIME) {
+            return; // 在冷却时间内，直接返回
+        }
 
-                if (message.contains(playerName)) {
-                    Component pingComponent = Component.text("@" + playerName)
-                            .color(TextColor.color(255, 170, 0))
-                            .decorate(TextDecoration.BOLD);
+        boolean pinged = false;
+        Component finalMessage = originalMessage;
 
-                    originalMessage.set(originalMessage.get().replaceText(TextReplacementConfig.builder()
-                            .matchLiteral(playerName)
-                            .replacement(pingComponent)
-                            .build()));
+        for (Player target : plugin.getServer().getOnlinePlayers()) {
+            String playerName = target.getName();
+            Pattern pattern = Pattern.compile("\\b" + Pattern.quote(playerName) + "\\b", Pattern.CASE_INSENSITIVE);
+            if (pattern.matcher(plainMessage).find()) {
+                pinged = true;
+                Component pingComponent = Component.text("@" + playerName)
+                        .color(TextColor.color(0, 255, 0))
+                        .decorate(TextDecoration.BOLD);
 
-                    if (!sender.equals(target) && target.getLocation() != null) {
-                        plugin.getServer().getRegionScheduler().execute(plugin, target.getLocation(), () -> {
-                            Component actionBar = Component.text("玩家 ")
-                                    .append(Component.text(sender.getName()).color(NamedTextColor.YELLOW))
-                                    .append(Component.text(" 在聊天中提到了你！"));
-                            target.sendActionBar(actionBar);
-                            target.playSound(target.getLocation(), Sound.BLOCK_ANVIL_LAND, 2.5f, 1.0f);
-                        });
-                    }
+                finalMessage = finalMessage.replaceText(TextReplacementConfig.builder()
+                        .match("\\b" + Pattern.quote(playerName) + "\\b")
+                        .replacement(pingComponent)
+                        .build());
+
+                if (!sender.equals(target)) {
+                    target.playSound(target.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                    Component actionBar = Component.text("玩家 ")
+                            .append(Component.text(sender.getName()).color(NamedTextColor.YELLOW))
+                            .append(Component.text(" 在聊天中提到了你！"));
+                    target.sendActionBar(actionBar);
                 }
             }
-            event.message(originalMessage.get());
-        });
+        }
+
+        if (pinged) {
+            cooldowns.put(sender.getUniqueId(), currentTime);
+        }
+        event.message(finalMessage);
     }
 }
