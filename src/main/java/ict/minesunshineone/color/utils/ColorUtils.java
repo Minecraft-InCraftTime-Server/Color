@@ -49,14 +49,20 @@ public class ColorUtils {
         if (text.contains("<") && text.contains(">")) {
             try {
                 result = miniMessage.deserialize(text);
-                return result.decoration(TextDecoration.ITALIC, false);
+                if (!text.contains("&o")) {
+                    return result.decoration(TextDecoration.ITALIC, false);
+                }
+                return result;
             } catch (Exception ignored) {
             }
         }
 
         try {
             result = legacySerializer.deserialize(text);
-            return result.decoration(TextDecoration.ITALIC, false);
+            if (!text.contains("&o")) {
+                return result.decoration(TextDecoration.ITALIC, false);
+            }
+            return result;
         } catch (Exception e) {
             return Component.text(text).decoration(TextDecoration.ITALIC, false);
         }

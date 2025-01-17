@@ -1,6 +1,6 @@
 name: ColorCode
 version: '1.0'
-main: ict.MineSunshineone.color.ColorCode
+main: ict.minesunshineone.color.ColorCode
 api-version: '1.21'
 description: A plugin that allows players to use color codes on signs and anvils
 author: MineSunshineone
