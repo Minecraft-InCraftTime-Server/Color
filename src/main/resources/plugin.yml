@@ -2,16 +2,18 @@ name: ColorCode
 version: '1.0'
 main: ict.minesunshineone.color.ColorCode
 api-version: '1.21'
-description: A plugin that allows players to use color codes on signs and anvils
+description: 一个允许玩家在告示牌和铁砧上使用颜色代码的插件
 author: MineSunshineone
 folia-supported: true
+
+# 权限节点配置
 permissions:
   colorcode.sign:
-    description: Allows using color codes on signs
-    default: op
+    description: 允许在告示牌上使用颜色代码
+    default: op  # 默认仅管理员可用
   colorcode.anvil:
-    description: Allows using color codes in anvils
-    default: op
+    description: 允许在铁砧上使用颜色代码
+    default: op  # 默认仅管理员可用
   colorcode.chat:
-    description: Allows using item display in chat
-    default: true 
+    description: 允许在聊天中展示物品
+    default: true  # 默认所有玩家可用 
