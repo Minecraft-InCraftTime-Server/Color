@@ -45,10 +45,13 @@ public class PlayerChatListener implements Listener {
                     ? handItem.getItemMeta().displayName()
                     : Component.translatable(handItem.getType().translationKey());
 
+            String quantityText = handItem.getAmount() > 1 ? " x" + handItem.getAmount() : "";
+
             return Component.text("『")
                     .append(itemName
                             .decorate(TextDecoration.BOLD)
                             .hoverEvent(handItem.asHoverEvent()))
+                    .append(Component.text(quantityText))
                     .append(Component.text("』"));
         } else {
             return Component.text("『")
