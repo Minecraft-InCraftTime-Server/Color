@@ -3,7 +3,6 @@ package ict.minesunshineone.chat;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ict.minesunshineone.chat.commands.MuteCommand;
-import ict.minesunshineone.chat.commands.MuteCommandTabCompleter;
 import ict.minesunshineone.chat.listeners.AnvilListener;
 import ict.minesunshineone.chat.listeners.PingListener;
 import ict.minesunshineone.chat.listeners.PlayerChatListener;
@@ -27,10 +26,11 @@ public class SimpleChat extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PingListener(this), this);
 
         // 注册命令
-        getCommand("mute").setExecutor(new MuteCommand(muteManager));
-        getCommand("unmute").setExecutor(new MuteCommand(muteManager));
-        getCommand("mute").setTabCompleter(new MuteCommandTabCompleter());
-        getCommand("unmute").setTabCompleter(new MuteCommandTabCompleter());
+        MuteCommand muteCommand = new MuteCommand(muteManager);
+        getCommand("mute").setExecutor(muteCommand);
+        getCommand("unmute").setExecutor(muteCommand);
+        getCommand("mute").setTabCompleter(muteCommand);
+        getCommand("unmute").setTabCompleter(muteCommand);
 
         getLogger().info("SimpleChat插件已启用");
     }
