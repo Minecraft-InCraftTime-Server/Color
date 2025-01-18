@@ -1,5 +1,5 @@
 name: ColorCode
-version: '1.2'
+version: '1.4'
 main: ict.minesunshineone.color.ColorCode
 api-version: '1.21'
 description: 一个允许玩家在告示牌和铁砧上使用颜色代码的插件
@@ -17,4 +17,7 @@ permissions:
     default: op  # 默认仅管理员可用
   colorcode.chat.color:
     description: 允许在聊天中使用颜色代码
+    default: op  # 默认仅管理员可用
+  colorcode.chat.mentionall:
+    description: 允许在聊天中使用@all功能
     default: op  # 默认仅管理员可用 

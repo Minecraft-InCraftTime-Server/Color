@@ -1,6 +1,5 @@
 package ict.minesunshineone.color.listeners;
 
-import ict.minesunshineone.color.utils.ComponentUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -10,13 +9,13 @@ import org.jetbrains.annotations.NotNull;
 
 import ict.minesunshineone.color.ColorCode;
 import ict.minesunshineone.color.utils.ColorUtils;
+import ict.minesunshineone.color.utils.ComponentUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class PlayerChatListener implements org.bukkit.event.Listener {
 

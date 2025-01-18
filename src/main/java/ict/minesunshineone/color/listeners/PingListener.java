@@ -5,7 +5,6 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
-import ict.minesunshineone.color.utils.ComponentUtils;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
+import ict.minesunshineone.color.utils.ComponentUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
@@ -65,6 +65,29 @@ public class PingListener implements Listener {
         boolean pinged = false;
         Component finalMessage = originalMessage;
 
+        // 处理 @all 功能
+        if (sender.hasPermission("colorcode.chat.mentionall") && plainMessage.contains("@all")) {
+            pinged = true;
+            Component allMentionComponent = Component.text("@all")
+                    .color(TextColor.color(0, 255, 0)); // 绿色
+
+            finalMessage = finalMessage.replaceText(TextReplacementConfig.builder()
+                    .matchLiteral("@all")
+                    .replacement(allMentionComponent)
+                    .build());
+
+            // 给所有在线玩家发送提醒（除了发送者）
+            for (Player target : plugin.getServer().getOnlinePlayers()) {
+                target.playSound(target.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                Component actionBar = Component.text("管理员 ")
+                        .append(Component.text(sender.getName()).color(NamedTextColor.YELLOW))
+                        .append(Component.text(" 发送了全体消息！"));
+                target.sendActionBar(actionBar);
+
+            }
+        }
+
+        // 处理普通的 @ 功能
         for (Player target : plugin.getServer().getOnlinePlayers()) {
             String playerName = target.getName();
             String patternStr = String.format(PLAYER_NAME_PATTERN.pattern(), Pattern.quote(playerName));
