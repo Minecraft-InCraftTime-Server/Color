@@ -96,7 +96,9 @@ public class MuteCommand implements CommandExecutor {
             sender.sendMessage(Component.text("已解除玩家 ")
                     .color(TextColor.color(255, 170, 0)) // 深金色
                     .append(Component.text(target.getName())
-                            .color(TextColor.color(255, 85, 85))));  // 红色
+                            .color(TextColor.color(255, 85, 85))) // 红色
+                    .append(Component.text(" 的禁言")
+                            .color(TextColor.color(255, 170, 0)))); // 深金色
 
             Component unmuteBroadcast = Component.text(sender.getName())
                     .color(TextColor.color(255, 85, 85)) // 红色

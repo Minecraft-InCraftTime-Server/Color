@@ -1,18 +1,16 @@
 package ict.minesunshineone.color.listeners;
 
-import ict.minesunshineone.color.utils.ComponentUtils;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 
+import ict.minesunshineone.color.utils.ComponentUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 
 public class SignListener implements Listener {
-
 
     @EventHandler
     public void onSignChange(SignChangeEvent event) {

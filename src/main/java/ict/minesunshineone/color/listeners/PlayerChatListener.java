@@ -36,7 +36,6 @@ public class PlayerChatListener implements org.bukkit.event.Listener {
         // 检查玩家是否被禁言
         if (muteManager.isMuted(player)) {
             MuteManager.MuteInfo muteInfo = muteManager.getMuteInfo(player);
-            long remainingSeconds = muteInfo.getRemainingTime() / 1000;
 
             Component message = Component.text("你已被禁言")
                     .color(TextColor.color(255, 170, 0))
