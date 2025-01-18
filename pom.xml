@@ -11,7 +11,7 @@
     </properties>
 
     <groupId>ict.MineSunshineone</groupId>
-    <artifactId>ColorCode</artifactId>
+    <artifactId>SimpleChat</artifactId>
     <version>1.4</version>
 
     <repositories>
