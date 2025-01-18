@@ -18,7 +18,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class PingListener implements Listener {
@@ -76,8 +75,7 @@ public class PingListener implements Listener {
             if (Pattern.compile(patternStr).matcher(plainMessage).find()) {
                 pinged = true;
                 Component pingComponent = Component.text("@" + playerName)
-                        .color(TextColor.color(0, 255, 0))
-                        .decorate(TextDecoration.BOLD);
+                        .color(TextColor.color(0, 255, 0));
 
                 finalMessage = finalMessage.replaceText(TextReplacementConfig.builder()
                         .match("\\b" + Pattern.quote(playerName) + "\\b")
