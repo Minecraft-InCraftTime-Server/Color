@@ -37,16 +37,16 @@ public class PlayerChatListener implements org.bukkit.event.Listener {
             MuteManager.MuteInfo muteInfo = muteManager.getMuteInfo(player);
             long remainingSeconds = muteInfo.getRemainingTime() / 1000;
 
-            Component message = Component.text("你已被禁言！")
-                    .color(TextColor.color(255, 85, 85))
+            Component message = Component.text("你已被禁言")
+                    .color(TextColor.color(255, 215, 0))
                     .append(Component.newline())
-                    .append(Component.text("原因: " + muteInfo.getReason()))
+                    .append(Component.text("原因: ").color(TextColor.color(255, 215, 0)))
+                    .append(Component.text(muteInfo.getReason()).color(TextColor.color(255, 85, 85)))
                     .append(Component.newline())
-                    .append(Component.text(String.format(
-                            "剩余时间: %d分%d秒",
+                    .append(Component.text("剩余时间: ").color(TextColor.color(255, 215, 0)))
+                    .append(Component.text(String.format("%d分%d秒",
                             remainingSeconds / 60,
-                            remainingSeconds % 60
-                    )));
+                            remainingSeconds % 60)).color(TextColor.color(255, 85, 85)));
 
             player.sendMessage(message);
             event.setCancelled(true);

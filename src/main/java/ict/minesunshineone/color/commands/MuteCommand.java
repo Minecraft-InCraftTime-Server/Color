@@ -41,15 +41,28 @@ public class MuteCommand implements CommandExecutor {
 
                 muteManager.mutePlayer(target, duration, reason.toString().trim());
 
-                Component message = Component.text("你已被管理员禁言！")
-                        .color(TextColor.color(255, 85, 85))
+                Component message = Component.text("你已被管理员禁言")
+                        .color(TextColor.color(255, 215, 0)) // 金黄色
                         .append(Component.newline())
-                        .append(Component.text("原因: " + reason.toString().trim()))
+                        .append(Component.text("原因: ").color(TextColor.color(255, 215, 0))) // 金黄色
+                        .append(Component.text(reason.toString().trim()).color(TextColor.color(255, 85, 85))) // 红色
                         .append(Component.newline())
-                        .append(Component.text("时长: " + args[1] + "分钟"));
+                        .append(Component.text("时长: ").color(TextColor.color(255, 215, 0))) // 金黄色
+                        .append(Component.text(args[1] + "分钟").color(TextColor.color(255, 85, 85)));  // 红色
 
                 target.sendMessage(message);
                 sender.sendMessage("已禁言玩家 " + target.getName());
+
+                Component broadcast = Component.text(sender.getName())
+                        .color(TextColor.color(255, 85, 85)) // 红色
+                        .append(Component.text("禁言了 ").color(TextColor.color(255, 215, 0))) // 金黄色
+                        .append(Component.text(target.getName()).color(TextColor.color(255, 85, 85))) // 红色
+                        .append(Component.text("，禁言时长：").color(TextColor.color(255, 215, 0))) // 金黄色
+                        .append(Component.text(args[1] + "分钟").color(TextColor.color(255, 85, 85))) // 红色
+                        .append(Component.text("。理由：").color(TextColor.color(255, 215, 0))) // 金黄色
+                        .append(Component.text(reason.toString().trim()).color(TextColor.color(255, 85, 85)));  // 红色
+
+                Bukkit.broadcast(broadcast);
             } catch (NumberFormatException e) {
                 sender.sendMessage("无效的时长");
             }
@@ -67,8 +80,17 @@ public class MuteCommand implements CommandExecutor {
             }
 
             muteManager.unmutePlayer(target);
-            target.sendMessage(Component.text("你的禁言已被解除！").color(TextColor.color(85, 255, 85)));
+            target.sendMessage(Component.text("你的禁言已被解除！")
+                    .color(TextColor.color(255, 255, 85)));
             sender.sendMessage("已解除玩家 " + target.getName() + " 的禁言");
+
+            Component unmuteBroadcast = Component.text(sender.getName())
+                    .color(TextColor.color(255, 85, 85)) // 红色
+                    .append(Component.text("解除了 ").color(TextColor.color(255, 215, 0))) // 金黄色
+                    .append(Component.text(target.getName()).color(TextColor.color(255, 85, 85))) // 红色
+                    .append(Component.text(" 的禁言").color(TextColor.color(255, 215, 0)));  // 金黄色
+
+            Bukkit.broadcast(unmuteBroadcast);
             return true;
         }
         return false;
