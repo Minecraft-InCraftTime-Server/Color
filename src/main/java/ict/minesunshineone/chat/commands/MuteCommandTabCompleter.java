@@ -1,4 +1,4 @@
-package ict.minesunshineone.color.commands;
+package ict.minesunshineone.chat.commands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import ict.minesunshineone.color.utils.TimeUtils;
+import ict.minesunshineone.chat.utils.TimeUtils;
 
 public class MuteCommandTabCompleter implements TabCompleter {
 

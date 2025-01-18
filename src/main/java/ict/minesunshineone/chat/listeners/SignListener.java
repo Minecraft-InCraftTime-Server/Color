@@ -1,4 +1,4 @@
-package ict.minesunshineone.color.listeners;
+package ict.minesunshineone.chat.listeners;
 
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 
-import ict.minesunshineone.color.utils.ComponentUtils;
+import ict.minesunshineone.chat.utils.ComponentUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 
@@ -16,7 +16,7 @@ public class SignListener implements Listener {
     public void onSignChange(SignChangeEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.hasPermission("colorcode.sign.color")) {
+        if (!player.hasPermission("simplechat.sign.color")) {
             return;
         }
 

@@ -1,36 +1,36 @@
-name: ColorCode
-version: '1.4'
-main: ict.minesunshineone.color.ColorCode
+name: SimpleChat
+version: '${plugin.version}'
+main: ict.minesunshineone.chat.SimpleChat
 api-version: '1.21'
-description: 一个允许玩家在告示牌和铁砧上使用颜色代码的插件
+description: 一个简单但功能丰富的 Minecraft 聊天管理插件
 author: MineSunshineone
 folia-supported: true
 softdepend: ["PlaceholderAPI"]
 
 # 权限节点配置
 permissions:
-  colorcode.sign.color:
-    description: 允许在告示牌上使用颜色代码
-    default: op  # 默认仅管理员可用
-  colorcode.anvil.color:
-    description: 允许在铁砧上使用颜色代码
-    default: op  # 默认仅管理员可用
-  colorcode.chat.color:
+  simplechat.chat.color:
     description: 允许在聊天中使用颜色代码
-    default: op  # 默认仅管理员可用
-  colorcode.chat.mentionall:
+    default: op
+  simplechat.chat.mentionall:
     description: 允许在聊天中使用@all功能
-    default: op  # 默认仅管理员可用
-  colorcode.mute:
+    default: op
+  simplechat.sign.color:
+    description: 允许在告示牌上使用颜色代码
+    default: op
+  simplechat.anvil.color:
+    description: 允许在铁砧上使用颜色代码
+    default: op
+  simplechat.mute:
     description: 允许使用禁言和解除禁言命令
     default: op
 
 commands:
   mute:
     description: 禁言玩家
-    usage: /mute <玩家> <时长(分钟)> <原因>
-    permission: colorcode.mute
+    usage: /mute <玩家> <时长> <原因>
+    permission: simplechat.mute
   unmute:
     description: 解除玩家禁言
     usage: /unmute <玩家>
-    permission: colorcode.mute 
+    permission: simplechat.mute 

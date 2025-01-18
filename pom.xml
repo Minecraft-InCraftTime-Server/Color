@@ -6,12 +6,13 @@
 
     <groupId>ict.MineSunshineone</groupId>
     <artifactId>ColorCode</artifactId>
-    <version>1.4</version>
+    <version>${plugin.version}</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <plugin.version>1.4</plugin.version>
     </properties>
 
     <repositories>
@@ -58,6 +59,12 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

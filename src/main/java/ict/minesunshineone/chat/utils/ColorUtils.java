@@ -1,4 +1,4 @@
-package ict.minesunshineone.color.utils;
+package ict.minesunshineone.chat.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

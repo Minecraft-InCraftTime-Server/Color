@@ -1,4 +1,4 @@
-package ict.minesunshineone.color.commands;
+package ict.minesunshineone.chat.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -6,8 +6,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import ict.minesunshineone.color.managers.MuteManager;
-import ict.minesunshineone.color.utils.TimeUtils;
+import ict.minesunshineone.chat.managers.MuteManager;
+import ict.minesunshineone.chat.utils.TimeUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 

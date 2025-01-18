@@ -1,14 +1,14 @@
-package ict.minesunshineone.color;
+package ict.minesunshineone.chat;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ict.minesunshineone.color.commands.MuteCommand;
-import ict.minesunshineone.color.commands.MuteCommandTabCompleter;
-import ict.minesunshineone.color.listeners.AnvilListener;
-import ict.minesunshineone.color.listeners.PingListener;
-import ict.minesunshineone.color.listeners.PlayerChatListener;
-import ict.minesunshineone.color.listeners.SignListener;
-import ict.minesunshineone.color.managers.MuteManager;
+import ict.minesunshineone.chat.commands.MuteCommand;
+import ict.minesunshineone.chat.commands.MuteCommandTabCompleter;
+import ict.minesunshineone.chat.listeners.AnvilListener;
+import ict.minesunshineone.chat.listeners.PingListener;
+import ict.minesunshineone.chat.listeners.PlayerChatListener;
+import ict.minesunshineone.chat.listeners.SignListener;
+import ict.minesunshineone.chat.managers.MuteManager;
 
 public class ColorCode extends JavaPlugin {
 

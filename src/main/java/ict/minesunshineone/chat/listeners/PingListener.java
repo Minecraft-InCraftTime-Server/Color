@@ -1,4 +1,4 @@
-package ict.minesunshineone.color.listeners;
+package ict.minesunshineone.chat.listeners;
 
 import java.util.Map;
 import java.util.UUID;
@@ -13,7 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
-import ict.minesunshineone.color.utils.ComponentUtils;
+import ict.minesunshineone.chat.utils.ComponentUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
@@ -66,7 +66,7 @@ public class PingListener implements Listener {
         Component finalMessage = originalMessage;
 
         // 处理 @all 功能
-        if (sender.hasPermission("colorcode.chat.mentionall") && plainMessage.contains("@all")) {
+        if (sender.hasPermission("simplechat.chat.mentionall") && plainMessage.contains("@all")) {
             pinged = true;
             Component allMentionComponent = Component.text("@all")
                     .color(TextColor.color(0, 255, 0)); // 绿色

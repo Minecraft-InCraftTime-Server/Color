@@ -1,4 +1,4 @@
-package ict.minesunshineone.color.managers;
+package ict.minesunshineone.chat.managers;
 
 import java.io.File;
 import java.io.FileReader;

@@ -1,4 +1,4 @@
-package ict.minesunshineone.color.listeners;
+package ict.minesunshineone.chat.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -7,11 +7,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import ict.minesunshineone.color.ColorCode;
-import ict.minesunshineone.color.managers.MuteManager;
-import ict.minesunshineone.color.utils.ColorUtils;
-import ict.minesunshineone.color.utils.ComponentUtils;
-import ict.minesunshineone.color.utils.TimeUtils;
+import ict.minesunshineone.chat.ColorCode;
+import ict.minesunshineone.chat.managers.MuteManager;
+import ict.minesunshineone.chat.utils.ColorUtils;
+import ict.minesunshineone.chat.utils.ComponentUtils;
+import ict.minesunshineone.chat.utils.TimeUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
@@ -58,7 +58,7 @@ public class PlayerChatListener implements org.bukkit.event.Listener {
         String plainMessage = ComponentUtils.legacySerializer().serialize(originalMessage);
 
         // 处理颜色代码
-        if (player.hasPermission("colorcode.chat.color")) {
+        if (player.hasPermission("simplechat.chat.color")) {
             originalMessage = ColorUtils.formatText(plainMessage);
         }
 

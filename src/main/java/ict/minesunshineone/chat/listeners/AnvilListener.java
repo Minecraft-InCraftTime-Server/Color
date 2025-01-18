@@ -1,6 +1,5 @@
-package ict.minesunshineone.color.listeners;
+package ict.minesunshineone.chat.listeners;
 
-import ict.minesunshineone.color.utils.ComponentUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -8,6 +7,7 @@ import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import ict.minesunshineone.chat.utils.ComponentUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 
@@ -21,7 +21,7 @@ public class AnvilListener implements Listener {
         }
 
         Player player = (Player) event.getView().getPlayer();
-        if (!player.hasPermission("colorcode.anvil.color")) {
+        if (!player.hasPermission("simplechat.anvil.color")) {
             return;
         }
 
