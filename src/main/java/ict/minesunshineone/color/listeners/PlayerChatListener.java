@@ -29,27 +29,30 @@ public class PlayerChatListener implements org.bukkit.event.Listener {
     public void onPlayerChat(AsyncChatEvent event) {
         Player player = event.getPlayer();
         Component originalMessage = event.message();
+
+        // 只序列化一次
         String plainMessage = LegacyComponentSerializer.legacyAmpersand().serialize(originalMessage);
 
-        // 先处理颜色代码
+        // 处理颜色代码
         if (player.hasPermission("colorcode.chat.color")) {
-            String messageStr = LegacyComponentSerializer.legacyAmpersand().serialize(originalMessage);
-            originalMessage = ColorUtils.formatText(messageStr);
+            originalMessage = ColorUtils.formatText(plainMessage);
         }
 
-        // 再处理物品展示标记
-        plainMessage = LegacyComponentSerializer.legacyAmpersand().serialize(originalMessage);
+        // 处理物品展示标记
         if (plainMessage.contains("[i]") || plainMessage.contains("[item]")) {
             Component displayItem = getComponent(player);
-            originalMessage = originalMessage
-                    .replaceText(TextReplacementConfig.builder().matchLiteral("[i]").replacement(displayItem).build())
-                    .replaceText(TextReplacementConfig.builder().matchLiteral("[item]").replacement(displayItem).build());
+            // 合并替换操作
+            originalMessage = originalMessage.replaceText(TextReplacementConfig.builder()
+                    .match("\\[(i|item)\\]")
+                    .replacement(displayItem)
+                    .build());
         }
 
         // 构建最终消息
-        String format = plugin.getConfig().getString("chat.format", "%luckperms_prefix%%player_name%%luckperms_suffix% &a&l>>&r %message%");
-        format = PlaceholderAPI.setPlaceholders(player, format);
-        format = format.replace("%player_name%", player.getName());
+        String format = plugin.getConfig().getString("chat.format",
+                "%luckperms_prefix%%player_name%%luckperms_suffix% &a&l>>&r %message%");
+        format = PlaceholderAPI.setPlaceholders(player, format)
+                .replace("%player_name%", player.getName());
 
         // 将格式转换为组件，但保留 %message% 占位符
         Component formatComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(format);
