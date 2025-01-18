@@ -1,5 +1,6 @@
 package ict.minesunshineone.color.listeners;
 
+import ict.minesunshineone.color.utils.ComponentUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -31,7 +32,7 @@ public class PlayerChatListener implements org.bukkit.event.Listener {
         Component originalMessage = event.message();
 
         // 只序列化一次
-        String plainMessage = LegacyComponentSerializer.legacyAmpersand().serialize(originalMessage);
+        String plainMessage = ComponentUtils.legacySerializer().serialize(originalMessage);
 
         // 处理颜色代码
         if (player.hasPermission("colorcode.chat.color")) {
@@ -40,7 +41,7 @@ public class PlayerChatListener implements org.bukkit.event.Listener {
 
         // 处理物品展示标记
         if (plainMessage.contains("[i]") || plainMessage.contains("[item]")) {
-            Component displayItem = getComponent(player);
+            Component displayItem = getHandItemComponent(player);
             // 合并替换操作
             originalMessage = originalMessage.replaceText(TextReplacementConfig.builder()
                     .match("\\[(i|item)\\]")
@@ -51,11 +52,10 @@ public class PlayerChatListener implements org.bukkit.event.Listener {
         // 构建最终消息
         String format = plugin.getConfig().getString("chat.format",
                 "%luckperms_prefix%%player_name%%luckperms_suffix% &a&l>>&r %message%");
-        format = PlaceholderAPI.setPlaceholders(player, format)
-                .replace("%player_name%", player.getName());
+        format = PlaceholderAPI.setPlaceholders(player, format);
 
         // 将格式转换为组件，但保留 %message% 占位符
-        Component formatComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(format);
+        Component formatComponent = ComponentUtils.legacySerializer().deserialize(format);
 
         // 使用 replaceText 替换 %message% 为原始消息组件
         Component finalMessage = formatComponent.replaceText(TextReplacementConfig.builder()
@@ -69,7 +69,7 @@ public class PlayerChatListener implements org.bukkit.event.Listener {
     }
 
     private static @NotNull
-    Component getComponent(Player player) {
+    Component getHandItemComponent(Player player) {
         ItemStack handItem = player.getInventory().getItemInMainHand();
 
         if (handItem.getType() != Material.AIR) {

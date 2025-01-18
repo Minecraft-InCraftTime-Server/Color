@@ -1,5 +1,6 @@
 package ict.minesunshineone.color.listeners;
 
+import ict.minesunshineone.color.utils.ComponentUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,16 +10,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class AnvilListener implements Listener {
-
-    private static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer.builder()
-            .character('&')
-            .hexColors()
-            .useUnusualXRepeatedCharacterHexFormat()
-            .hexCharacter('#')
-            .build();
 
     @EventHandler
     public void onAnvilPrepare(PrepareAnvilEvent event) {
@@ -38,7 +31,7 @@ public class AnvilListener implements Listener {
         }
 
         String name = meta.getDisplayName();
-        Component coloredName = SERIALIZER.deserialize(name)
+        Component coloredName = ComponentUtils.legacySerializer().deserialize(name)
                 .decoration(TextDecoration.ITALIC, false);
 
         meta.displayName(coloredName);

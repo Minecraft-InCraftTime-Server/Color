@@ -5,6 +5,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
+import ict.minesunshineone.color.utils.ComponentUtils;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,7 +19,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class PingListener implements Listener {
 
@@ -26,10 +26,6 @@ public class PingListener implements Listener {
     private final Map<UUID, Long> cooldowns = new ConcurrentHashMap<>();
     private static final long COOLDOWN_TIME = 5000; // 5秒冷却时间
     private static final long CLEANUP_DELAY = 12000L; // 10分钟清理一次
-    private static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer.builder()
-            .character('&')
-            .hexColors()
-            .build();
     private static final Pattern PLAYER_NAME_PATTERN = Pattern.compile("\\b%s\\b", Pattern.CASE_INSENSITIVE);
     private static final Component PLAYER_MENTION_PREFIX = Component.text("玩家 ");
     private static final Component PLAYER_MENTION_SUFFIX = Component.text(" 在聊天中提到了你！");
@@ -57,7 +53,7 @@ public class PingListener implements Listener {
     public void onAsyncChat(AsyncChatEvent event) {
         Player sender = event.getPlayer();
         Component originalMessage = event.message();
-        String plainMessage = SERIALIZER.serialize(originalMessage);
+        String plainMessage = ComponentUtils.legacySerializer().serialize(originalMessage);
 
         // 检查冷却时间
         long currentTime = System.currentTimeMillis();
