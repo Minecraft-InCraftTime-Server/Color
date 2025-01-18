@@ -72,9 +72,8 @@ public class MuteCommand implements CommandExecutor {
                         .append(Component.text(reason.toString().trim()).color(TextColor.color(255, 85, 85)));  // 红色
 
                 Bukkit.broadcast(broadcast);
-            } catch (NumberFormatException e) {
-                sender.sendMessage(Component.text("无效的时长")
-                        .color(TextColor.color(255, 170, 0)));  // 深金色
+            } catch (IllegalArgumentException e) {
+                sender.sendMessage(TimeUtils.getTimeFormatHelpMessage());
             }
             return true;
         } else if (command.getName().equalsIgnoreCase("unmute")) {

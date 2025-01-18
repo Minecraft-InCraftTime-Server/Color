@@ -3,6 +3,9 @@ package ict.minesunshineone.color.utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+
 public class TimeUtils {
 
     private static final Pattern TIME_PATTERN = Pattern.compile("^(\\d+)(s|m|h|d|w|mo|y)$");
@@ -96,13 +99,32 @@ public class TimeUtils {
 
     public static String[] getTimeUnits() {
         return new String[]{
-            "1y", "2y", "3y", // 年
-            "1mo", "2mo", "3mo", // 月
-            "1w", "2w", "3w", // 周
-            "1d", "2d", "3d", // 天
-            "1h", "2h", "12h", // 小时
-            "1m", "5m", "15m", // 分钟
-            "1s", "30s", "45s" // 秒
+            "1y", // 年
+            "1mo", // 月
+            "1w", // 周
+            "1d", "2d", // 天
+            "12h", "1h", // 小时
+            "15m", "1m", // 分钟
+            "1s" // 秒
         };
+    }
+
+    public static Component getTimeFormatHelpMessage() {
+        return Component.text("无效的时间格式! 正确格式示例: ")
+                .color(TextColor.color(255, 170, 0))
+                .append(Component.newline())
+                .append(Component.text("1s = 1秒").color(TextColor.color(255, 85, 85)))
+                .append(Component.newline())
+                .append(Component.text("1m = 1分钟").color(TextColor.color(255, 85, 85)))
+                .append(Component.newline())
+                .append(Component.text("1h = 1小时").color(TextColor.color(255, 85, 85)))
+                .append(Component.newline())
+                .append(Component.text("1d = 1天").color(TextColor.color(255, 85, 85)))
+                .append(Component.newline())
+                .append(Component.text("1w = 1周").color(TextColor.color(255, 85, 85)))
+                .append(Component.newline())
+                .append(Component.text("1mo = 1个月").color(TextColor.color(255, 85, 85)))
+                .append(Component.newline())
+                .append(Component.text("1y = 1年").color(TextColor.color(255, 85, 85)));
     }
 }
