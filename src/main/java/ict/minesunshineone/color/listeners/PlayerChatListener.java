@@ -29,20 +29,21 @@ public class PlayerChatListener implements org.bukkit.event.Listener {
     public void onPlayerChat(AsyncChatEvent event) {
         Player player = event.getPlayer();
         Component originalMessage = event.message();
-
-        // 检查是否包含物品展示标记
         String plainMessage = LegacyComponentSerializer.legacyAmpersand().serialize(originalMessage);
+
+        // 先处理颜色代码
+        if (player.hasPermission("colorcode.chat.color")) {
+            String messageStr = LegacyComponentSerializer.legacyAmpersand().serialize(originalMessage);
+            originalMessage = ColorUtils.formatText(messageStr);
+        }
+
+        // 再处理物品展示标记
+        plainMessage = LegacyComponentSerializer.legacyAmpersand().serialize(originalMessage);
         if (plainMessage.contains("[i]") || plainMessage.contains("[item]")) {
             Component displayItem = getComponent(player);
             originalMessage = originalMessage
                     .replaceText(TextReplacementConfig.builder().matchLiteral("[i]").replacement(displayItem).build())
                     .replaceText(TextReplacementConfig.builder().matchLiteral("[item]").replacement(displayItem).build());
-        }
-
-        // 如果玩家有权限，处理颜色代码
-        if (player.hasPermission("colorcode.chat.color")) {
-            String messageStr = LegacyComponentSerializer.legacyAmpersand().serialize(originalMessage);
-            originalMessage = ColorUtils.formatText(messageStr);
         }
 
         // 构建最终消息
