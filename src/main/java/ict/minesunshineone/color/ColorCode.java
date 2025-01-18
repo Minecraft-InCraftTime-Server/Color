@@ -2,12 +2,13 @@ package ict.minesunshineone.color;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import ict.minesunshineone.color.commands.MuteCommand;
+import ict.minesunshineone.color.commands.MuteCommandTabCompleter;
 import ict.minesunshineone.color.listeners.AnvilListener;
 import ict.minesunshineone.color.listeners.PingListener;
 import ict.minesunshineone.color.listeners.PlayerChatListener;
 import ict.minesunshineone.color.listeners.SignListener;
 import ict.minesunshineone.color.managers.MuteManager;
-import ict.minesunshineone.color.commands.MuteCommand;
 
 public class ColorCode extends JavaPlugin {
 
@@ -28,6 +29,8 @@ public class ColorCode extends JavaPlugin {
         // 注册命令
         getCommand("mute").setExecutor(new MuteCommand(muteManager));
         getCommand("unmute").setExecutor(new MuteCommand(muteManager));
+        getCommand("mute").setTabCompleter(new MuteCommandTabCompleter());
+        getCommand("unmute").setTabCompleter(new MuteCommandTabCompleter());
 
         getLogger().info("ColorCode插件已启用");
     }

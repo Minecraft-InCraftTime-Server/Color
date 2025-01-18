@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import ict.minesunshineone.color.managers.MuteManager;
+import ict.minesunshineone.color.utils.TimeUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 
@@ -35,7 +36,7 @@ public class MuteCommand implements CommandExecutor {
             }
 
             try {
-                long duration = Long.parseLong(args[1]) * 60 * 1000; // 转换为毫秒
+                long duration = TimeUtils.parseDuration(args[1]);
                 StringBuilder reason = new StringBuilder();
                 for (int i = 2; i < args.length; i++) {
                     reason.append(args[i]).append(" ");
@@ -43,14 +44,17 @@ public class MuteCommand implements CommandExecutor {
 
                 muteManager.mutePlayer(target, duration, reason.toString().trim());
 
+                // 使用格式化后的时间显示
+                String formattedDuration = TimeUtils.formatDuration(duration);
+
                 Component message = Component.text("你已被管理员禁言")
-                        .color(TextColor.color(255, 170, 0)) // 深金色
+                        .color(TextColor.color(255, 170, 0))
                         .append(Component.newline())
                         .append(Component.text("原因: ").color(TextColor.color(255, 170, 0)))
                         .append(Component.text(reason.toString().trim()).color(TextColor.color(255, 85, 85)))
                         .append(Component.newline())
                         .append(Component.text("时长: ").color(TextColor.color(255, 170, 0)))
-                        .append(Component.text(args[1] + "分钟").color(TextColor.color(255, 85, 85)));
+                        .append(Component.text(formattedDuration).color(TextColor.color(255, 85, 85)));
 
                 target.sendMessage(message);
                 sender.sendMessage(Component.text("已禁言玩家 ")
@@ -63,7 +67,7 @@ public class MuteCommand implements CommandExecutor {
                         .append(Component.text("禁言了 ").color(TextColor.color(255, 170, 0))) // 深金色
                         .append(Component.text(target.getName()).color(TextColor.color(255, 85, 85))) // 红色
                         .append(Component.text("，禁言时长：").color(TextColor.color(255, 170, 0))) // 深金色
-                        .append(Component.text(args[1] + "分钟").color(TextColor.color(255, 85, 85))) // 红色
+                        .append(Component.text(formattedDuration).color(TextColor.color(255, 85, 85))) // 红色
                         .append(Component.text("。理由：").color(TextColor.color(255, 170, 0))) // 深金色
                         .append(Component.text(reason.toString().trim()).color(TextColor.color(255, 85, 85)));  // 红色
 

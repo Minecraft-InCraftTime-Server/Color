@@ -11,6 +11,7 @@ import ict.minesunshineone.color.ColorCode;
 import ict.minesunshineone.color.managers.MuteManager;
 import ict.minesunshineone.color.utils.ColorUtils;
 import ict.minesunshineone.color.utils.ComponentUtils;
+import ict.minesunshineone.color.utils.TimeUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
@@ -44,9 +45,8 @@ public class PlayerChatListener implements org.bukkit.event.Listener {
                     .append(Component.text(muteInfo.getReason()).color(TextColor.color(255, 85, 85)))
                     .append(Component.newline())
                     .append(Component.text("剩余时间: ").color(TextColor.color(255, 170, 0)))
-                    .append(Component.text(String.format("%d分%d秒",
-                            remainingSeconds / 60,
-                            remainingSeconds % 60)).color(TextColor.color(255, 85, 85)));
+                    .append(Component.text(TimeUtils.formatDuration(muteInfo.getRemainingTime()))
+                            .color(TextColor.color(255, 85, 85)));
 
             player.sendMessage(message);
             event.setCancelled(true);
