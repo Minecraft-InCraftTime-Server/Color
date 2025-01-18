@@ -8,13 +8,13 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import ict.minesunshineone.color.ColorCode;
+import ict.minesunshineone.color.utils.ColorUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class PlayerChatListener implements org.bukkit.event.Listener {
@@ -37,6 +37,12 @@ public class PlayerChatListener implements org.bukkit.event.Listener {
             originalMessage = originalMessage
                     .replaceText(TextReplacementConfig.builder().matchLiteral("[i]").replacement(displayItem).build())
                     .replaceText(TextReplacementConfig.builder().matchLiteral("[item]").replacement(displayItem).build());
+        }
+
+        // 如果玩家有权限，处理颜色代码
+        if (player.hasPermission("colorcode.chat.color")) {
+            String messageStr = LegacyComponentSerializer.legacyAmpersand().serialize(originalMessage);
+            originalMessage = ColorUtils.formatText(messageStr);
         }
 
         // 构建最终消息
@@ -81,11 +87,9 @@ public class PlayerChatListener implements org.bukkit.event.Listener {
             return Component.text("「")
                     .append(itemName)
                     .append(Component.text("」"))
-                    .decorate(TextDecoration.BOLD)
                     .hoverEvent(HoverEvent.showItem(handItem.asHoverEvent().value()));
         } else {
             return Component.text("「" + player.getName() + "的手」")
-                    .decorate(TextDecoration.BOLD)
                     .hoverEvent(HoverEvent.showText(Component.text("手上什么也没有").color(TextColor.color(255, 85, 85))));
         }
     }

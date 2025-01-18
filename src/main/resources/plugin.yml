@@ -9,12 +9,12 @@ softdepend: ["PlaceholderAPI"]
 
 # 权限节点配置
 permissions:
-  colorcode.sign:
+  colorcode.sign.color:
     description: 允许在告示牌上使用颜色代码
     default: op  # 默认仅管理员可用
-  colorcode.anvil:
+  colorcode.anvil.color:
     description: 允许在铁砧上使用颜色代码
     default: op  # 默认仅管理员可用
-  colorcode.chat:
-    description: 允许在聊天中展示物品
-    default: true  # 默认所有玩家可用 
+  colorcode.chat.color:
+    description: 允许在聊天中使用颜色代码
+    default: op  # 默认仅管理员可用 

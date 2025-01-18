@@ -28,7 +28,7 @@ public class AnvilListener implements Listener {
         }
 
         Player player = (Player) event.getView().getPlayer();
-        if (!player.hasPermission("colorcode.anvil")) {
+        if (!player.hasPermission("colorcode.anvil.color")) {
             return;
         }
 
