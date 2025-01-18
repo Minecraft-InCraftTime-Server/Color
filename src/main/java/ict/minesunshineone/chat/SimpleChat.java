@@ -10,7 +10,7 @@ import ict.minesunshineone.chat.listeners.PlayerChatListener;
 import ict.minesunshineone.chat.listeners.SignListener;
 import ict.minesunshineone.chat.managers.MuteManager;
 
-public class ColorCode extends JavaPlugin {
+public class SimpleChat extends JavaPlugin {
 
     private MuteManager muteManager;
 
@@ -32,7 +32,7 @@ public class ColorCode extends JavaPlugin {
         getCommand("mute").setTabCompleter(new MuteCommandTabCompleter());
         getCommand("unmute").setTabCompleter(new MuteCommandTabCompleter());
 
-        getLogger().info("ColorCode插件已启用");
+        getLogger().info("SimpleChat插件已启用");
     }
 
     @Override
@@ -40,7 +40,7 @@ public class ColorCode extends JavaPlugin {
         if (muteManager != null) {
             muteManager.saveMuteData();
         }
-        getLogger().info("ColorCode插件已禁用");
+        getLogger().info("SimpleChat插件已禁用");
     }
 
     public MuteManager getMuteManager() {

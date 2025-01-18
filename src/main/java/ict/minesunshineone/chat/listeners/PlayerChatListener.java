@@ -7,7 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import ict.minesunshineone.chat.ColorCode;
+import ict.minesunshineone.chat.SimpleChat;
 import ict.minesunshineone.chat.managers.MuteManager;
 import ict.minesunshineone.chat.utils.ColorUtils;
 import ict.minesunshineone.chat.utils.ComponentUtils;
@@ -21,10 +21,10 @@ import net.kyori.adventure.text.format.TextColor;
 
 public class PlayerChatListener implements org.bukkit.event.Listener {
 
-    private ColorCode plugin;
+    private SimpleChat plugin;
     private final MuteManager muteManager;
 
-    public PlayerChatListener(ColorCode plugin, MuteManager muteManager) {
+    public PlayerChatListener(SimpleChat plugin, MuteManager muteManager) {
         this.plugin = plugin;
         this.muteManager = muteManager;
     }
