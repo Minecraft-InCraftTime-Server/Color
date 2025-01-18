@@ -38,12 +38,12 @@ public class PlayerChatListener implements org.bukkit.event.Listener {
             long remainingSeconds = muteInfo.getRemainingTime() / 1000;
 
             Component message = Component.text("你已被禁言")
-                    .color(TextColor.color(255, 215, 0))
+                    .color(TextColor.color(255, 170, 0))
                     .append(Component.newline())
-                    .append(Component.text("原因: ").color(TextColor.color(255, 215, 0)))
+                    .append(Component.text("原因: ").color(TextColor.color(255, 170, 0)))
                     .append(Component.text(muteInfo.getReason()).color(TextColor.color(255, 85, 85)))
                     .append(Component.newline())
-                    .append(Component.text("剩余时间: ").color(TextColor.color(255, 215, 0)))
+                    .append(Component.text("剩余时间: ").color(TextColor.color(255, 170, 0)))
                     .append(Component.text(String.format("%d分%d秒",
                             remainingSeconds / 60,
                             remainingSeconds % 60)).color(TextColor.color(255, 85, 85)));

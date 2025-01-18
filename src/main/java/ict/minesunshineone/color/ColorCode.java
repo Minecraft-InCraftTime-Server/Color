@@ -34,6 +34,9 @@ public class ColorCode extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        if (muteManager != null) {
+            muteManager.saveMuteData();
+        }
         getLogger().info("ColorCode插件已禁用");
     }
 

@@ -22,13 +22,15 @@ public class MuteCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("mute")) {
             if (args.length < 3) {
-                sender.sendMessage("用法: /mute <玩家> <时长(分钟)> <原因>");
+                sender.sendMessage(Component.text("用法: /mute <玩家> <时长(分钟)> <原因>")
+                        .color(TextColor.color(255, 170, 0)));  // 深金色
                 return true;
             }
 
             Player target = Bukkit.getPlayer(args[0]);
             if (target == null) {
-                sender.sendMessage("找不到该玩家");
+                sender.sendMessage(Component.text("找不到该玩家")
+                        .color(TextColor.color(255, 170, 0)));  // 深金色
                 return true;
             }
 
@@ -42,53 +44,62 @@ public class MuteCommand implements CommandExecutor {
                 muteManager.mutePlayer(target, duration, reason.toString().trim());
 
                 Component message = Component.text("你已被管理员禁言")
-                        .color(TextColor.color(255, 215, 0)) // 金黄色
+                        .color(TextColor.color(255, 170, 0)) // 深金色
                         .append(Component.newline())
-                        .append(Component.text("原因: ").color(TextColor.color(255, 215, 0))) // 金黄色
-                        .append(Component.text(reason.toString().trim()).color(TextColor.color(255, 85, 85))) // 红色
+                        .append(Component.text("原因: ").color(TextColor.color(255, 170, 0)))
+                        .append(Component.text(reason.toString().trim()).color(TextColor.color(255, 85, 85)))
                         .append(Component.newline())
-                        .append(Component.text("时长: ").color(TextColor.color(255, 215, 0))) // 金黄色
-                        .append(Component.text(args[1] + "分钟").color(TextColor.color(255, 85, 85)));  // 红色
+                        .append(Component.text("时长: ").color(TextColor.color(255, 170, 0)))
+                        .append(Component.text(args[1] + "分钟").color(TextColor.color(255, 85, 85)));
 
                 target.sendMessage(message);
-                sender.sendMessage("已禁言玩家 " + target.getName());
+                sender.sendMessage(Component.text("已禁言玩家 ")
+                        .color(TextColor.color(255, 170, 0)) // 深金色
+                        .append(Component.text(target.getName())
+                                .color(TextColor.color(255, 85, 85))));  // 红色
 
                 Component broadcast = Component.text(sender.getName())
                         .color(TextColor.color(255, 85, 85)) // 红色
-                        .append(Component.text("禁言了 ").color(TextColor.color(255, 215, 0))) // 金黄色
+                        .append(Component.text("禁言了 ").color(TextColor.color(255, 170, 0))) // 深金色
                         .append(Component.text(target.getName()).color(TextColor.color(255, 85, 85))) // 红色
-                        .append(Component.text("，禁言时长：").color(TextColor.color(255, 215, 0))) // 金黄色
+                        .append(Component.text("，禁言时长：").color(TextColor.color(255, 170, 0))) // 深金色
                         .append(Component.text(args[1] + "分钟").color(TextColor.color(255, 85, 85))) // 红色
-                        .append(Component.text("。理由：").color(TextColor.color(255, 215, 0))) // 金黄色
+                        .append(Component.text("。理由：").color(TextColor.color(255, 170, 0))) // 深金色
                         .append(Component.text(reason.toString().trim()).color(TextColor.color(255, 85, 85)));  // 红色
 
                 Bukkit.broadcast(broadcast);
             } catch (NumberFormatException e) {
-                sender.sendMessage("无效的时长");
+                sender.sendMessage(Component.text("无效的时长")
+                        .color(TextColor.color(255, 170, 0)));  // 深金色
             }
             return true;
         } else if (command.getName().equalsIgnoreCase("unmute")) {
             if (args.length < 1) {
-                sender.sendMessage("用法: /unmute <玩家>");
+                sender.sendMessage(Component.text("用法: /unmute <玩家>")
+                        .color(TextColor.color(255, 170, 0)));  // 深金色
                 return true;
             }
 
             Player target = Bukkit.getPlayer(args[0]);
             if (target == null) {
-                sender.sendMessage("找不到该玩家");
+                sender.sendMessage(Component.text("找不到该玩家")
+                        .color(TextColor.color(255, 170, 0)));  // 深金色
                 return true;
             }
 
             muteManager.unmutePlayer(target);
             target.sendMessage(Component.text("你的禁言已被解除！")
-                    .color(TextColor.color(255, 255, 85)));
-            sender.sendMessage("已解除玩家 " + target.getName() + " 的禁言");
+                    .color(TextColor.color(255, 170, 0)));  // 深金色);
+            sender.sendMessage(Component.text("已解除玩家 ")
+                    .color(TextColor.color(255, 170, 0)) // 深金色
+                    .append(Component.text(target.getName())
+                            .color(TextColor.color(255, 85, 85))));  // 红色
 
             Component unmuteBroadcast = Component.text(sender.getName())
                     .color(TextColor.color(255, 85, 85)) // 红色
-                    .append(Component.text("解除了 ").color(TextColor.color(255, 215, 0))) // 金黄色
+                    .append(Component.text("解除了 ").color(TextColor.color(255, 170, 0))) // 深金色
                     .append(Component.text(target.getName()).color(TextColor.color(255, 85, 85))) // 红色
-                    .append(Component.text(" 的禁言").color(TextColor.color(255, 215, 0)));  // 金黄色
+                    .append(Component.text(" 的禁言").color(TextColor.color(255, 170, 0)));  // 深金色
 
             Bukkit.broadcast(unmuteBroadcast);
             return true;
