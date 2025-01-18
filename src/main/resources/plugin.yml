@@ -5,6 +5,7 @@ api-version: '1.21'
 description: 一个允许玩家在告示牌和铁砧上使用颜色代码的插件
 author: MineSunshineone
 folia-supported: true
+softdepend: ["PlaceholderAPI"]
 
 # 权限节点配置
 permissions:

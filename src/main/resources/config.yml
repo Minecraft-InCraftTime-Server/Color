@@ -1,0 +1,3 @@
+# Chat Configuration
+chat:
+  format: "%luckperms_prefix%%player_name%%luckperms_suffix% &a&l>>&r %message%" 

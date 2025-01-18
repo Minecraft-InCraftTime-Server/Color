@@ -11,9 +11,12 @@ public class ColorCode extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        saveDefaultConfig();
+
         getServer().getPluginManager().registerEvents(new SignListener(), this);
         getServer().getPluginManager().registerEvents(new AnvilListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerChatListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerChatListener(this), this);
         getServer().getPluginManager().registerEvents(new PingListener(this), this);
         getLogger().info("ColorCode插件已启用");
     }
