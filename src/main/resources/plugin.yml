@@ -20,4 +20,17 @@ permissions:
     default: op  # 默认仅管理员可用
   colorcode.chat.mentionall:
     description: 允许在聊天中使用@all功能
-    default: op  # 默认仅管理员可用 
+    default: op  # 默认仅管理员可用
+  colorcode.mute:
+    description: 允许使用禁言和解除禁言命令
+    default: op
+
+commands:
+  mute:
+    description: 禁言玩家
+    usage: /mute <玩家> <时长(分钟)> <原因>
+    permission: colorcode.mute
+  unmute:
+    description: 解除玩家禁言
+    usage: /unmute <玩家>
+    permission: colorcode.mute 

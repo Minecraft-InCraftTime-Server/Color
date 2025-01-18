@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import ict.minesunshineone.color.ColorCode;
+import ict.minesunshineone.color.managers.MuteManager;
 import ict.minesunshineone.color.utils.ColorUtils;
 import ict.minesunshineone.color.utils.ComponentUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
@@ -20,14 +21,38 @@ import net.kyori.adventure.text.format.TextColor;
 public class PlayerChatListener implements org.bukkit.event.Listener {
 
     private ColorCode plugin;
+    private final MuteManager muteManager;
 
-    public PlayerChatListener(ColorCode plugin) {
+    public PlayerChatListener(ColorCode plugin, MuteManager muteManager) {
         this.plugin = plugin;
+        this.muteManager = muteManager;
     }
 
     @EventHandler
     public void onPlayerChat(AsyncChatEvent event) {
         Player player = event.getPlayer();
+
+        // 检查玩家是否被禁言
+        if (muteManager.isMuted(player)) {
+            MuteManager.MuteInfo muteInfo = muteManager.getMuteInfo(player);
+            long remainingSeconds = muteInfo.getRemainingTime() / 1000;
+
+            Component message = Component.text("你已被禁言！")
+                    .color(TextColor.color(255, 85, 85))
+                    .append(Component.newline())
+                    .append(Component.text("原因: " + muteInfo.getReason()))
+                    .append(Component.newline())
+                    .append(Component.text(String.format(
+                            "剩余时间: %d分%d秒",
+                            remainingSeconds / 60,
+                            remainingSeconds % 60
+                    )));
+
+            player.sendMessage(message);
+            event.setCancelled(true);
+            return;
+        }
+
         Component originalMessage = event.message();
 
         // 只序列化一次
