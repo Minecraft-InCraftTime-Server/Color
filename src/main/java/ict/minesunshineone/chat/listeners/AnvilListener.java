@@ -30,8 +30,8 @@ public class AnvilListener implements Listener {
             return;
         }
 
-        String name = meta.getDisplayName();
-        Component coloredName = ComponentUtils.legacySerializer().deserialize(name)
+        Component name = meta.displayName();
+        Component coloredName = ComponentUtils.legacySerializer().deserialize(name.toString())
                 .decoration(TextDecoration.ITALIC, false);
 
         meta.displayName(coloredName);
