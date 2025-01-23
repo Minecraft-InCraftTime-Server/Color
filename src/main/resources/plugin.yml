@@ -24,6 +24,9 @@ permissions:
   simplechat.mute:
     description: 允许使用禁言和解除禁言命令
     default: op
+  simplechat.reload:
+    description: 允许重载聊天插件配置
+    default: op
 
 commands:
   mute:
@@ -33,4 +36,8 @@ commands:
   unmute:
     description: 解除玩家禁言
     usage: /unmute <玩家>
-    permission: simplechat.mute 
+    permission: simplechat.mute
+  chatreload:
+    description: 重载聊天插件配置
+    usage: /chatreload
+    permission: simplechat.reload 

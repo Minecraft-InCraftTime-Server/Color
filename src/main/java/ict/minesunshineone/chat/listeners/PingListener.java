@@ -78,7 +78,7 @@ public class PingListener implements Listener {
 
             // 给所有在线玩家发送提醒（除了发送者）
             for (Player target : plugin.getServer().getOnlinePlayers()) {
-                target.playSound(target.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                target.playSound(target.getLocation(), Sound.BLOCK_ANVIL_LAND, 2.0f, 1.0f);
                 Component actionBar = Component.text("管理员 ")
                         .append(Component.text(sender.getName()).color(NamedTextColor.YELLOW))
                         .append(Component.text(" 发送了全体消息！"));
@@ -102,7 +102,7 @@ public class PingListener implements Listener {
                         .build());
 
                 if (!sender.equals(target)) {
-                    target.playSound(target.getLocation(), Sound.BLOCK_ANVIL_LAND, 2.5f, 1.0f);
+                    target.playSound(target.getLocation(), Sound.BLOCK_ANVIL_LAND, 2.0f, 1.0f);
                     Component actionBar = PLAYER_MENTION_PREFIX
                             .append(Component.text(sender.getName()).color(NamedTextColor.YELLOW))
                             .append(PLAYER_MENTION_SUFFIX);
