@@ -31,8 +31,10 @@ public class AnvilListener implements Listener {
         }
 
         String name = meta.getDisplayName();
-        Component coloredName = ComponentUtils.legacySerializer().deserialize(name)
-                .decoration(TextDecoration.ITALIC, false);
+        Component coloredName = ComponentUtils.legacySerializer().deserialize(name);
+        if (!name.contains("&o")) {
+            coloredName = coloredName.decoration(TextDecoration.ITALIC, false);
+        }
 
         meta.displayName(coloredName);
         result.setItemMeta(meta);

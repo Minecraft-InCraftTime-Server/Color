@@ -39,8 +39,10 @@ public class SignListener implements Listener {
 
             // 如果纯文本内容相同但原始文本不同（说明只改变了颜色代码），应用新的格式
             if (strippedNewLine.equals(oldPlainText) && !newLineStr.equals(oldPlainText)) {
-                Component component = ComponentUtils.legacySerializer().deserialize(newLineStr)
-                        .decoration(TextDecoration.ITALIC, false);
+                Component component = ComponentUtils.legacySerializer().deserialize(newLineStr);
+                if (!newLineStr.contains("&o")) {
+                    component = component.decoration(TextDecoration.ITALIC, false);
+                }
                 event.line(i, component);
                 continue;
             }
@@ -52,8 +54,10 @@ public class SignListener implements Listener {
             }
 
             // 内容发生改变，应用新的格式
-            Component component = ComponentUtils.legacySerializer().deserialize(newLineStr)
-                    .decoration(TextDecoration.ITALIC, false);
+            Component component = ComponentUtils.legacySerializer().deserialize(newLineStr);
+            if (!newLineStr.contains("&o")) {
+                component = component.decoration(TextDecoration.ITALIC, false);
+            }
             event.line(i, component);
         }
     }
