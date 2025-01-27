@@ -1,0 +1,16 @@
+# Chat Configuration
+chat:
+  format: "%luckperms_prefix%%player_name%%luckperms_suffix% &a&l>>&r %message%"
+
+# Ping Configuration
+ping:
+  sound:
+    normal:
+      type: "BLOCK_ANVIL_LAND"  # 普通 @ 的声音
+      volume: 2.0  # 音量 (0.0 - 2.0)
+      pitch: 1.0   # 音调 (0.5 - 2.0)
+    all:
+      type: "BLOCK_ANVIL_LAND"  # @all 的声音
+      volume: 2.0
+      pitch: 1.0
+  cooldown: 5000  # ping 冷却时间（毫秒） 

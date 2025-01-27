@@ -1,0 +1,5 @@
+name: SimpleChatBridge
+version: 1.0-SNAPSHOT
+main: ict.minesunshineone.simplechatbridge.bungee.SimpleChatBridgeBungee
+author: MineSunshineOne
+description: A bridge plugin for SimpleChat 

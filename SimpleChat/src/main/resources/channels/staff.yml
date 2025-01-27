@@ -1,0 +1,28 @@
+name: "staff"
+display_name: "&c管理频道"
+description: "&7管理员专用的聊天频道"
+permission: "simplechat.channel.staff"
+cross_server: true
+
+format:
+  prefix:
+    tag:
+      text: "&c[Staff]"
+      hover:
+        - "&c管理员频道"
+        - "&7仅管理员可见"
+    world:
+      text: "&7[%player_world%]"
+      hover:
+        - "&8▪ &7位置: &3%player_world%&7, &2%player_x%/%player_y%/%player_z%"
+        - "&6▶ &e点击传送"
+      command: "/tp %player_name%"
+    player:
+      text: "%luckperms_prefix%%player_name%"
+      hover:
+        - "&7▶ 点击私聊"
+      suggest: "/tell %player_name% "
+  separator:
+    text: " &c&l>> "
+  message:
+    text: "%message%" 
