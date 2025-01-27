@@ -9,12 +9,14 @@ import org.bukkit.entity.Player;
 import ict.minesunshineone.chat.SimpleChat;
 import ict.minesunshineone.chat.channel.AbstractChatChannel;
 import io.papermc.paper.event.player.AsyncChatEvent;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 
 public class PrivateChannel extends AbstractChatChannel {
 
     private final Map<UUID, UUID> privateChats = new HashMap<>();
+    private final Map<UUID, String> targetNames = new HashMap<>();
 
     public PrivateChannel(SimpleChat plugin) {
         super(plugin,
@@ -22,11 +24,11 @@ public class PrivateChannel extends AbstractChatChannel {
                 null,
                 Component.text("私聊频道").color(TextColor.color(255, 170, 0)),
                 Component.text("与其他玩家私聊的频道").color(TextColor.color(170, 170, 170)));
-        this.format = "&6[私聊] &e%player_name% &6-> &e%target_name% &6>>&r %message%";
     }
 
     public void setPrivateChat(Player sender, Player target) {
         privateChats.put(sender.getUniqueId(), target.getUniqueId());
+        targetNames.put(sender.getUniqueId(), target.getName());
     }
 
     public Player getPrivateChatTarget(Player sender) {
@@ -39,6 +41,7 @@ public class PrivateChannel extends AbstractChatChannel {
 
     public void removePrivateChat(Player player) {
         privateChats.remove(player.getUniqueId());
+        targetNames.remove(player.getUniqueId());
     }
 
     @Override
@@ -51,12 +54,14 @@ public class PrivateChannel extends AbstractChatChannel {
             return;
         }
 
-        String formatStr = format.replace("%target_name%", target.getName());
-        this.format = formatStr;
+        // 替换目标玩家名称占位符
+        String targetName = targetNames.get(sender.getUniqueId());
+        String message = PlaceholderAPI.setPlaceholders(sender, "%message%")
+                .replace("%target_name%", targetName);
 
-        Component message = formatMessage(sender, event.message());
-        sender.sendMessage(message);
-        target.sendMessage(message);
+        Component formattedMessage = formatMessage(sender, event.message());
+        sender.sendMessage(formattedMessage);
+        target.sendMessage(formattedMessage);
 
         event.setCancelled(true);
     }

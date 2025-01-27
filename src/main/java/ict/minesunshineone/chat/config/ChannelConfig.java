@@ -5,10 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import ict.minesunshineone.chat.SimpleChat;
+import ict.minesunshineone.chat.utils.ChatFormatBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
@@ -18,16 +21,16 @@ public class ChannelConfig {
     private final Component displayName;
     private final Component description;
     private final String permission;
-    private final String format;
     private final boolean crossServer;
+    private final ChatFormatBuilder formatBuilder;
 
-    public ChannelConfig(String name, Component displayName, Component description, String permission, String format, boolean crossServer) {
+    public ChannelConfig(String name, Component displayName, Component description, String permission, boolean crossServer, ChatFormatBuilder formatBuilder) {
         this.name = name;
         this.displayName = displayName;
         this.description = description;
         this.permission = permission;
-        this.format = format;
         this.crossServer = crossServer;
+        this.formatBuilder = formatBuilder;
     }
 
     public static ChannelConfig load(SimpleChat plugin, String channelName) {
@@ -40,7 +43,7 @@ public class ChannelConfig {
                     Files.copy(in, channelFile.toPath());
                 }
             } catch (IOException e) {
-                plugin.getLogger().warning("无法创建频道配置文件: " + channelName);
+                plugin.getLogger().warning(String.format("无法创建频道配置文件: %s", channelName));
                 return null;
             }
         }
@@ -53,10 +56,12 @@ public class ChannelConfig {
         Component description = LegacyComponentSerializer.legacyAmpersand().deserialize(
                 config.getString("description", ""));
         String permission = config.getString("permission", "");
-        String format = config.getString("format", "%luckperms_prefix%%player_name%%luckperms_suffix% &a&l>>&r %message%");
         boolean crossServer = config.getBoolean("cross_server", false);
 
-        return new ChannelConfig(name, displayName, description, permission, format, crossServer);
+        ConfigurationSection formatSection = config.getConfigurationSection("format");
+        ChatFormatBuilder formatBuilder = new ChatFormatBuilder(formatSection);
+
+        return new ChannelConfig(name, displayName, description, permission, crossServer, formatBuilder);
     }
 
     public String getName() {
@@ -75,11 +80,11 @@ public class ChannelConfig {
         return permission;
     }
 
-    public String getFormat() {
-        return format;
-    }
-
     public boolean isCrossServer() {
         return crossServer;
+    }
+
+    public Component formatMessage(Player player, Component message) {
+        return formatBuilder.build(player, message);
     }
 }

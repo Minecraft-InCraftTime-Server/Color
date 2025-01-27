@@ -1,0 +1,29 @@
+name: "private"
+display_name: "&6私聊频道"
+description: "&7与其他玩家私聊的频道"
+permission: ""
+cross_server: false
+
+format:
+  prefix:
+    tag:
+      text: "&6[私聊]"
+      hover:
+        - "&6私聊频道"
+        - "&7仅目标玩家可见"
+    sender:
+      text: "&e%player_name%"
+      hover:
+        - "&7▶ 点击回复"
+      suggest: "/tell %player_name% "
+    arrow:
+      text: " &6-> "
+    target:
+      text: "&e%target_name%"
+      hover:
+        - "&7▶ 点击切换私聊对象"
+      suggest: "/channel private %target_name%"
+  separator:
+    text: " &6&l>> "
+  message:
+    text: "%message%" 
