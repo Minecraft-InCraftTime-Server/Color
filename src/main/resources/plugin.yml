@@ -27,6 +27,12 @@ permissions:
   simplechat.reload:
     description: 允许重载聊天插件配置
     default: op
+  simplechat.channel.staff:
+    description: 允许使用管理员频道
+    default: op
+  simplechat.channel.global:
+    description: 允许使用全局频道
+    default: op
 
 commands:
   mute:
@@ -40,4 +46,8 @@ commands:
   chatreload:
     description: 重载聊天插件配置
     usage: /chatreload
-    permission: simplechat.reload 
+    permission: simplechat.reload
+  channel:
+    description: 切换聊天频道
+    usage: /channel [频道名称] [玩家名称]
+    aliases: [ch] 

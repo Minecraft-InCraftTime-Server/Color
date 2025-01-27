@@ -1,0 +1,24 @@
+name: "normal"
+display_name: "&a普通频道"
+description: "&7服务器的公共聊天频道"
+permission: ""
+cross_server: false
+
+format:
+  prefix:
+    world:
+      text: "&7[%player_world%]"
+      hover:
+        - "&8▪ &7位置: &3%player_world%&7, &2%player_x%/%player_y%/%player_z%"
+        - "&8▪ &7累计在线：%statistic_time_played:days%天%statistic_time_played:hours%小时"
+        - "&6▶ &e点击可以传送到玩家位置"
+      command: "/tpa %player_name%"
+    player:
+      text: "%luckperms_prefix%%player_name%"
+      hover:
+        - "&7▶ 点击私聊"
+      suggest: "/tell %player_name% "
+  separator:
+    text: " &a&l>> "
+  message:
+    text: "%message%" 

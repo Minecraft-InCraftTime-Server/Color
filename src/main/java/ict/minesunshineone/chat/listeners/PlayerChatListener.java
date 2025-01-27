@@ -1,13 +1,15 @@
 package ict.minesunshineone.chat.listeners;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import ict.minesunshineone.chat.SimpleChat;
+import ict.minesunshineone.chat.channel.ChatChannel;
 import ict.minesunshineone.chat.managers.MuteManager;
 import ict.minesunshineone.chat.utils.ColorUtils;
 import ict.minesunshineone.chat.utils.ComponentUtils;
@@ -19,9 +21,9 @@ import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextColor;
 
-public class PlayerChatListener implements org.bukkit.event.Listener {
+public class PlayerChatListener implements Listener {
 
-    private SimpleChat plugin;
+    private final SimpleChat plugin;
     private final MuteManager muteManager;
 
     public PlayerChatListener(SimpleChat plugin, MuteManager muteManager) {
@@ -29,7 +31,7 @@ public class PlayerChatListener implements org.bukkit.event.Listener {
         this.muteManager = muteManager;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerChat(AsyncChatEvent event) {
         Player player = event.getPlayer();
 
@@ -52,9 +54,15 @@ public class PlayerChatListener implements org.bukkit.event.Listener {
             return;
         }
 
-        Component originalMessage = event.message();
+        // 获取玩家当前频道
+        ChatChannel channel = plugin.getChannelManager().getPlayerChannel(player);
+        if (channel != null) {
+            channel.handleChat(event);
+            return;
+        }
 
-        // 只序列化一次
+        // 如果没有频道，使用默认聊天处理
+        Component originalMessage = event.message();
         String plainMessage = ComponentUtils.legacySerializer().serialize(originalMessage);
 
         // 处理颜色代码
@@ -88,7 +96,7 @@ public class PlayerChatListener implements org.bukkit.event.Listener {
 
         // 取消原始消息并广播新消息
         event.setCancelled(true);
-        Bukkit.broadcast(finalMessage);
+        plugin.getServer().broadcast(finalMessage);
     }
 
     private static @NotNull

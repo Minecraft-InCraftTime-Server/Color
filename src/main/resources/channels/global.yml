@@ -1,0 +1,27 @@
+name: "global"
+display_name: "&b全局频道"
+description: "&7跨服务器的全局聊天频道"
+permission: "simplechat.channel.global"
+cross_server: true
+
+format:
+  prefix:
+    tag:
+      text: "&b[全局]"
+      hover:
+        - "&b全局频道"
+        - "&7所有服务器可见"
+    server:
+      text: "&7[%server_name%]"
+      hover:
+        - "&8▪ &7服务器: &b%server_name%"
+        - "&8▪ &7在线人数: &a%server_online%"
+    player:
+      text: "%luckperms_prefix%%player_name%"
+      hover:
+        - "&7▶ 点击私聊"
+      suggest: "/tell %player_name% "
+  separator:
+    text: " &b&l>> "
+  message:
+    text: "%message%" 
