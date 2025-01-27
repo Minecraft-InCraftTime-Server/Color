@@ -24,14 +24,38 @@ public class PingListener implements Listener {
 
     private final Plugin plugin;
     private final Map<UUID, Long> cooldowns = new ConcurrentHashMap<>();
-    private static final long COOLDOWN_TIME = 5000; // 5秒冷却时间
-    private static final long CLEANUP_DELAY = 12000L; // 10分钟清理一次
+    private final long COOLDOWN_TIME;
+    private static final long CLEANUP_DELAY = 12000L;
     private static final Pattern PLAYER_NAME_PATTERN = Pattern.compile("\\b%s\\b", Pattern.CASE_INSENSITIVE);
     private static final Component PLAYER_MENTION_PREFIX = Component.text("玩家 ");
     private static final Component PLAYER_MENTION_SUFFIX = Component.text(" 在聊天中提到了你！");
 
+    // 声音配置
+    private final Sound normalPingSound;
+    private final float normalPingVolume;
+    private final float normalPingPitch;
+    private final Sound allPingSound;
+    private final float allPingVolume;
+    private final float allPingPitch;
+
     public PingListener(Plugin plugin) {
         this.plugin = plugin;
+
+        // 从配置文件加载设置
+        this.COOLDOWN_TIME = plugin.getConfig().getLong("ping.cooldown", 5000);
+
+        // 加载普通 ping 声音设置
+        String normalSoundType = plugin.getConfig().getString("ping.sound.normal.type", "BLOCK_ANVIL_LAND");
+        this.normalPingSound = Sound.valueOf(normalSoundType);
+        this.normalPingVolume = (float) plugin.getConfig().getDouble("ping.sound.normal.volume", 2.0);
+        this.normalPingPitch = (float) plugin.getConfig().getDouble("ping.sound.normal.pitch", 1.0);
+
+        // 加载 @all ping 声音设置
+        String allSoundType = plugin.getConfig().getString("ping.sound.all.type", "BLOCK_ANVIL_LAND");
+        this.allPingSound = Sound.valueOf(allSoundType);
+        this.allPingVolume = (float) plugin.getConfig().getDouble("ping.sound.all.volume", 2.0);
+        this.allPingPitch = (float) plugin.getConfig().getDouble("ping.sound.all.pitch", 1.0);
+
         // 启动定期清理任务
         startCleanupTask();
     }
@@ -78,12 +102,13 @@ public class PingListener implements Listener {
 
             // 给所有在线玩家发送提醒（除了发送者）
             for (Player target : plugin.getServer().getOnlinePlayers()) {
-                target.playSound(target.getLocation(), Sound.BLOCK_ANVIL_LAND, 2.0f, 1.0f);
-                Component actionBar = Component.text("管理员 ")
-                        .append(Component.text(sender.getName()).color(NamedTextColor.YELLOW))
-                        .append(Component.text(" 发送了全体消息！"));
-                target.sendActionBar(actionBar);
-
+                if (!target.equals(sender)) {
+                    target.playSound(target.getLocation(), allPingSound, allPingVolume, allPingPitch);
+                    Component actionBar = Component.text("管理员 ")
+                            .append(Component.text(sender.getName()).color(NamedTextColor.YELLOW))
+                            .append(Component.text(" 发送了全体消息！"));
+                    target.sendActionBar(actionBar);
+                }
             }
         }
 
@@ -102,7 +127,7 @@ public class PingListener implements Listener {
                         .build());
 
                 if (!sender.equals(target)) {
-                    target.playSound(target.getLocation(), Sound.BLOCK_ANVIL_LAND, 2.0f, 1.0f);
+                    target.playSound(target.getLocation(), normalPingSound, normalPingVolume, normalPingPitch);
                     Component actionBar = PLAYER_MENTION_PREFIX
                             .append(Component.text(sender.getName()).color(NamedTextColor.YELLOW))
                             .append(PLAYER_MENTION_SUFFIX);
