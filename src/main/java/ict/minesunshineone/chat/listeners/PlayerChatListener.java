@@ -4,16 +4,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import ict.minesunshineone.chat.SimpleChat;
 import ict.minesunshineone.chat.managers.MuteManager;
+import ict.minesunshineone.chat.utils.AdvancedChatFormatter;
 import ict.minesunshineone.chat.utils.ColorUtils;
 import ict.minesunshineone.chat.utils.ComponentUtils;
 import ict.minesunshineone.chat.utils.TimeUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
-import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -21,15 +22,17 @@ import net.kyori.adventure.text.format.TextColor;
 
 public class PlayerChatListener implements org.bukkit.event.Listener {
 
-    private SimpleChat plugin;
+    private final SimpleChat plugin;
     private final MuteManager muteManager;
+    private final AdvancedChatFormatter chatFormatter;
 
     public PlayerChatListener(SimpleChat plugin, MuteManager muteManager) {
         this.plugin = plugin;
         this.muteManager = muteManager;
+        this.chatFormatter = new AdvancedChatFormatter(plugin);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void onPlayerChat(AsyncChatEvent event) {
         Player player = event.getPlayer();
 
@@ -52,39 +55,27 @@ public class PlayerChatListener implements org.bukkit.event.Listener {
             return;
         }
 
+        // 获取原始消息
         Component originalMessage = event.message();
-
-        // 只序列化一次
         String plainMessage = ComponentUtils.legacySerializer().serialize(originalMessage);
 
         // 处理颜色代码
+        Component processedMessage = originalMessage;
         if (player.hasPermission("simplechat.chat.color")) {
-            originalMessage = ColorUtils.formatText(plainMessage);
+            processedMessage = ColorUtils.formatText(plainMessage);
         }
 
         // 处理物品展示标记
         if (plainMessage.contains("[i]") || plainMessage.contains("[item]")) {
             Component displayItem = getHandItemComponent(player);
-            // 合并替换操作
-            originalMessage = originalMessage.replaceText(TextReplacementConfig.builder()
+            processedMessage = processedMessage.replaceText(TextReplacementConfig.builder()
                     .match("\\[(i|item)\\]")
                     .replacement(displayItem)
                     .build());
         }
 
-        // 构建最终消息
-        String format = plugin.getConfig().getString("chat.format",
-                "%luckperms_prefix%%player_name%%luckperms_suffix% &a&l>>&r %message%");
-        format = PlaceholderAPI.setPlaceholders(player, format);
-
-        // 将格式转换为组件，但保留 %message% 占位符
-        Component formatComponent = ComponentUtils.legacySerializer().deserialize(format);
-
-        // 使用 replaceText 替换 %message% 为原始消息组件
-        Component finalMessage = formatComponent.replaceText(TextReplacementConfig.builder()
-                .matchLiteral("%message%")
-                .replacement(originalMessage)
-                .build());
+        // 使用高级格式化处理最终消息
+        Component finalMessage = chatFormatter.format(player, processedMessage);
 
         // 取消原始消息并广播新消息
         event.setCancelled(true);
@@ -120,5 +111,4 @@ public class PlayerChatListener implements org.bukkit.event.Listener {
                     .hoverEvent(HoverEvent.showText(Component.text("手上什么也没有").color(TextColor.color(255, 85, 85))));
         }
     }
-
 }

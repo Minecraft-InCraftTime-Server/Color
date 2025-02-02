@@ -18,8 +18,15 @@ public class ReloadCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        plugin.reloadConfig();
-        sender.sendMessage(Component.text("SimpleChat配置已重载！").color(TextColor.color(255, 170, 0)));
+        if (!sender.hasPermission("simplechat.admin.reload")) {
+            sender.sendMessage(Component.text("你没有权限执行此命令！")
+                    .color(TextColor.color(255, 85, 85)));
+            return true;
+        }
+
+        plugin.reload();
+        sender.sendMessage(Component.text("SimpleChat 配置已重载！")
+                .color(TextColor.color(85, 255, 85)));
         return true;
     }
 }

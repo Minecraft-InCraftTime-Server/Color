@@ -1,7 +1,7 @@
 name: SimpleChat
 version: '${project.version}'
 main: ict.minesunshineone.chat.SimpleChat
-api-version: '1.21'
+api-version: '1.20'
 description: 一个简单但功能丰富的 Minecraft 聊天管理插件
 author: MineSunshineone
 folia-supported: true
@@ -24,8 +24,8 @@ permissions:
   simplechat.mute:
     description: 允许使用禁言和解除禁言命令
     default: op
-  simplechat.reload:
-    description: 允许重载聊天插件配置
+  simplechat.admin.reload:
+    description: 允许重载插件配置
     default: op
 
 commands:
@@ -38,6 +38,6 @@ commands:
     usage: /unmute <玩家>
     permission: simplechat.mute
   chatreload:
-    description: 重载聊天插件配置
+    description: 重载SimpleChat插件配置
     usage: /chatreload
-    permission: simplechat.reload 
+    permission: simplechat.admin.reload 
