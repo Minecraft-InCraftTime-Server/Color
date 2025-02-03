@@ -8,9 +8,17 @@ chat:
     # 世界前缀配置
     prefix:
       world:
-        text: '&#ffc0cb&l❤ |&r'
+        text: ''
         hover: |-
           &8▪ &7&l位置: &3%player_world%&7, &2%player_x%/%player_y%/%player_z%
           &8▪ &7&l累计在线：%statistic_time_played:days%天%statistic_time_played:hours%小时
           &6▶ &e&l点击可以进行私聊哦
         command: '/tell %player_name% '
+    
+    # 玩家名字配置
+    player:
+      hover: |-
+        &8▪ &7&l位置: &3%player_world%&7, &2%player_x%/%player_y%/%player_z%
+        &8▪ &7&l累计在线：%statistic_time_played:days%天%statistic_time_played:hours%小时
+        &6▶ &e&l点击可以进行私聊哦
+      command: '/tell %player_name% '

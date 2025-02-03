@@ -51,7 +51,27 @@ public class AdvancedChatFormatter {
 
         // 处理玩家名字部分
         prefix = parsePlaceholders(prefix, player);
-        result = result.append(LegacyComponentSerializer.legacyAmpersand().deserialize(prefix));
+        Component nameComponent = (LegacyComponentSerializer.legacyAmpersand().deserialize(prefix));
+
+        // 添加玩家名字的悬浮信息（如果配置存在）
+        if (config != null) {
+            ConfigurationSection playerSection = config.getConfigurationSection("player");
+            if (playerSection != null) {
+                String hover = parsePlaceholders(playerSection.getString("hover", ""), player);
+                String command = parsePlaceholders(playerSection.getString("command", ""), player);
+
+                if (!hover.isEmpty()) {
+                    nameComponent = nameComponent.hoverEvent(HoverEvent.showText(
+                            LegacyComponentSerializer.legacyAmpersand().deserialize(hover)
+                    ));
+                }
+                if (!command.isEmpty()) {
+                    nameComponent = nameComponent.clickEvent(ClickEvent.suggestCommand(command));
+                }
+            }
+        }
+
+        result = result.append(nameComponent);
 
         // 直接添加原始消息组件，保持其所有属性
         result = result.append(message);
