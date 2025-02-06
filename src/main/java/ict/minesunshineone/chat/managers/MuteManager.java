@@ -17,6 +17,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import ict.minesunshineone.chat.utils.SchedulerUtils;
+
 public class MuteManager {
 
     private final Plugin plugin;
@@ -129,7 +131,7 @@ public class MuteManager {
     }
 
     private void startCleanupTask() {
-        plugin.getServer().getGlobalRegionScheduler().runAtFixedRate(plugin, task -> {
+        SchedulerUtils.runAtFixedRate(plugin, () -> {
             long currentTime = System.currentTimeMillis();
             mutedPlayers.entrySet().removeIf(entry -> entry.getValue().getEndTime() <= currentTime);
         }, 20L * 60, 20L * 60); // 每分钟清理一次

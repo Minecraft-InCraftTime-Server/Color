@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
 import ict.minesunshineone.chat.utils.ComponentUtils;
+import ict.minesunshineone.chat.utils.SchedulerUtils;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
@@ -42,7 +43,7 @@ public class PingListener implements Listener {
     }
 
     private void startCleanupTask() {
-        plugin.getServer().getGlobalRegionScheduler().runAtFixedRate(plugin, (task) -> {
+        SchedulerUtils.runAtFixedRate(plugin, () -> {
             long currentTime = System.currentTimeMillis();
             cooldowns.entrySet().removeIf(entry
                     -> currentTime - entry.getValue() > COOLDOWN_TIME * 10); // 移除超过30秒的记录
